@@ -71,12 +71,8 @@ cls
 echo Write your windows username and press ENTER
 set /p winuser=
 
-echo Write your subsystem username and press ENTER
-set /p subuser=
 
 TIMEOUT /T 10 /NOBREAK
-
-powershell -Command "Invoke-WebRequest https://github.com/TheDoop/subfinder-installer/blob/master/subfinder-OutFile subfinder"
 
 Echo n|COPY /-y subfinder C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder
 
@@ -90,7 +86,7 @@ goto start
 
 :4
 cls
-call Set_permisions.bat
+call Fix_perms.exe
 
 exit 
 
