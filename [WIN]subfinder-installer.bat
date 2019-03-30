@@ -27,7 +27,7 @@ if /I %option%==1 goto 1
 
 if /I %option%==2 goto 2
 
-if /I %option%==3 goto 3
+if /I %option%==3 goto menu2
 
 if /I %option%==4 goto 4
 
@@ -62,6 +62,26 @@ if /I %option%==d goto d
 
 if /I %option%==o goto o
 
+:menu2
+cls
+echo -----------------------------------------
+echo         "Choose option"
+echo -----------------------------------------
+echo A - Install
+echo U - Update
+echo B - Build From Source
+echo R - Remove
+
+set /p option=choose: || set option="0"
+
+if /I %option%==a goto 3
+
+if /I %option%==b goto build
+
+if /I %option%==r goto remove
+
+if /I %option%==u goto update
+
 
 
 :3
@@ -71,16 +91,23 @@ cls
 echo Write your windows username and press ENTER
 set /p winuser=
 
+cls
+
 echo Write your subsystem username and press ENTER
 set /p subuser=
 
-TIMEOUT /T 10 /NOBREAK
+cls
 
-powershell -Command "Invoke-WebRequest https://github.com/TheDoop/subfinder-installer/blob/master/subfinder-OutFile subfinder"
+TIMEOUT /T 5 /NOBREAK
+
+powershell -Command "Invoke-WebRequest https://github.com/TheDoop/subfinder-installer/blob/master/subfinder -OutFile subfinder"
 
 Echo n|COPY /-y subfinder C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder
 
 bash -c "sudo chmod +x C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder"
+
+bash -c "sudo chmod +x ~\usr\bin\subfinder"
+
 
 cd C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\home\%subuser%\
 
@@ -110,7 +137,19 @@ cls
 start www.microsoft.com/store/apps/9njvjts82tjx
 goto :start
 
+:remove
+cls
+bash -c "sudo rm -rf C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder"
+goto start
 
+:build
+cls 
+
+echo UNDER DEVELOPMENT
+
+TIMEOUT /T 3 /NOBREAK
+
+goto start
 pause
 
 
