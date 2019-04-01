@@ -8,17 +8,17 @@ cls
 cls
 
 
-title Subfinder installer
+title Subfinder Auto Installer
 mode con cols=50 lines=20
 
 
 color f1
-echo -----------------------------------------------
+echo ----------------------------------------
 echo 1- Enable Subsystem (restart required)
 echo 2- Install distribution
 echo 3- Install subfinder 
-echo 4- Set permisions (close all wls windows first!)
-echo -----------------------------------------------
+echo 4- Information/Support
+echo ----------------------------------------
                       
 
 set /p option=choose: || set option="0"
@@ -27,7 +27,7 @@ if /I %option%==1 goto 1
 
 if /I %option%==2 goto 2
 
-if /I %option%==3 goto 3
+if /I %option%==3 goto menu2
 
 if /I %option%==4 goto 4
 
@@ -62,6 +62,26 @@ if /I %option%==d goto d
 
 if /I %option%==o goto o
 
+:menu2
+cls
+echo -----------------------------------------
+echo         "Choose option"
+echo -----------------------------------------
+echo A - Install
+echo U - Update
+echo B - Build From Source
+echo R - Remove
+
+set /p option=choose: || set option="0"
+
+if /I %option%==a goto 3
+
+if /I %option%==b goto build
+
+if /I %option%==r goto remove
+
+if /I %option%==u goto update
+
 
 
 :3
@@ -71,12 +91,23 @@ cls
 echo Write your windows username and press ENTER
 set /p winuser=
 
+cls
 
-TIMEOUT /T 10 /NOBREAK
+echo Write your subsystem username and press ENTER
+set /p subuser=
 
-Echo n|COPY /-y subfinder C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder
+cls
 
-bash -c "sudo chmod +x C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder"
+TIMEOUT /T 5 /NOBREAK
+
+powershell -Command "Invoke-WebRequest https://github.com/TheDoop/subfinder-installer/blob/master/subfinder -OutFile subfinder" || cls && @echo "Download Error" && TIMEOUT /T 5 /NOBREAK && goto 3
+
+Echo n|COPY /-y subfinder C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder || cls && @echo "Copy Error - Enter correct username" &&  TIMEOUT /T 5 /NOBREAK && goto 3
+
+bash -c "sudo chmod +x C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder" || cls && @echo "Copy Error" && TIMEOUT /T 5 /NOBREAK
+
+bash -c "sudo chmod +x ~\usr\bin\subfinder" || cls && @echo "Permision Error (I don't know whats happening on there)" && TIMEOUT /T 5 /NOBREAK && cls
+
 
 cd C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\home\%subuser%\
 
@@ -86,7 +117,8 @@ goto start
 
 :4
 cls
-call Fix_perms.exe
+start https://t.me/F_Katyusha
+goto start
 
 exit 
 
@@ -106,8 +138,16 @@ cls
 start www.microsoft.com/store/apps/9njvjts82tjx
 goto :start
 
+:remove
+cls
 
-pause
+bash -c "sudo rm -rf C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder" || @echo "Error" && exit /B 1
+goto start
+
+
+:build
+call (Alpha)-build.exe
+exit
 
 
 
