@@ -100,13 +100,13 @@ cls
 
 TIMEOUT /T 5 /NOBREAK
 
-powershell -Command "Invoke-WebRequest https://github.com/TheDoop/subfinder-installer/blob/master/subfinder -OutFile subfinder" || cls && @echo "Download Error" && TIMEOUT /T 5 /NOBREAK && goto 3
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/TheDoop/subfinder-installer/master/subfinder -OutFile subfinder" || cls && @echo "Download Error" && TIMEOUT /T 5 /NOBREAK && goto 3
 
 Echo n|COPY /-y subfinder C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder || cls && @echo "Copy Error - Enter correct username" &&  TIMEOUT /T 5 /NOBREAK && goto 3
 
-bash -c "sudo chmod +x C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder" || cls && @echo "Copy Error" && TIMEOUT /T 5 /NOBREAK
+bash -c "sudo chmod +x C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\usr\bin\subfinder" || cls && @echo "Permision Error (Set manual)" && TIMEOUT /T 5 /NOBREAK && cls
 
-bash -c "sudo chmod +x ~\usr\bin\subfinder" || cls && @echo "Permision Error (I don't know whats happening on there)" && TIMEOUT /T 5 /NOBREAK && cls
+bash -c "sudo chmod +x ~\usr\bin\subfinder" || cls && @echo "Permision Error (Set manual)" && TIMEOUT /T 5 /NOBREAK && cls
 
 
 cd C:\users\%winuser%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs\home\%subuser%\
