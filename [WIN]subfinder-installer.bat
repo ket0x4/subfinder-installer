@@ -13,12 +13,12 @@ mode con cols=50 lines=20
 
 
 color f1
-echo -----------------------------------------------
+echo ----------------------------------------
 echo 1- Enable Subsystem (restart required)
 echo 2- Install distribution
 echo 3- Install subfinder 
-echo 4- Set permisions (close all wls windows first!)
-echo -----------------------------------------------
+echo 4- Information/Support
+echo ----------------------------------------
                       
 
 set /p option=choose: || set option="0"
@@ -117,7 +117,8 @@ goto start
 
 :4
 cls
-call Set_permisions.exe
+start https://t.me/F_Katyusha
+goto start
 
 exit 
 
