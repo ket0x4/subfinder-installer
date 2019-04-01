@@ -8,7 +8,7 @@ cls
 cls
 
 
-title Subfinder installer
+title Subfinder Auto Installer
 mode con cols=50 lines=20
 
 
@@ -146,14 +146,8 @@ goto start
 
 
 :build
-cls 
-
-echo UNDER DEVELOPMENT 
-
-TIMEOUT /T 3 /NOBREAK
-
-goto start
-pause
+call buid.bat
+exit
 
 
 
